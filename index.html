@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>InfiniteSuperSMP</title>
+
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="style.css?v=8">
+</head>
+
+<body>
+
+<div class="bg-glow glow-one"></div>
+<div class="bg-glow glow-two"></div>
+
+<nav class="navbar">
+
+    <a class="brand" href="#home">
+        <span class="brand-mark">I</span>
+        <span>Infinite<span>SuperSMP</span></span>
+    </a>
+
+    <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#server">Server</a>
+        <a href="#features">Features</a>
+        <a href="#community">Community</a>
+    </div>
+
+    <a
+        class="nav-discord"
+        href="https://discord.com/"
+        target="_blank">
+        Discord
+    </a>
+
+</nav>
+
+<main id="home">
+
+<section class="hero">
+
+    <div class="hero-copy">
+
+        <div class="live-pill">
+            <span id="statusDot"
+                class="status-dot"></span>
+
+            <span id="statusText">
+                CONNECTING...
+            </span>
+        </div>
+
+        <p class="eyebrow">
+            MINECRAFT ANARCHY • ECONOMY • SMP
+        </p>
+
+        <h1>
+            INFINITE
+            <span>SUPERSMP</span>
+        </h1>
+
+        <p class="hero-text">
+            Một thế giới Minecraft tự do,
+            nơi người chơi có thể xây dựng,
+            chiến đấu và tạo nên câu chuyện
+            của riêng mình.
+        </p>
+
+        <div class="address-box">
+
+            <div>
+                <small>SERVER ADDRESS</small>
+
+                <strong>
+                    issmp.pikamc.vn:25367
+                </strong>
+            </div>
+
+            <button id="copyBtn">
+                COPY
+            </button>
+
+        </div>
+
+        <div class="hero-actions">
+
+            <a
+                class="btn btn-primary"
+                href="#server">
+                XEM SERVER
+                <span>→</span>
+            </a>
+
+            <a
+                class="btn btn-ghost"
+                href="https://discord.com/"
+                target="_blank">
+                DISCORD
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="hero-player">
+
+        <div class="hero-player-top">
+            <span>SERVER STATUS</span>
+
+            <span
+                id="smallStatus"
+                class="hero-online">
+                CONNECTING...
+            </span>
+        </div>
+
+        <div class="hero-player-number">
+
+            <span id="playerCount">--</span>
+
+            <small id="playerMax">
+                / --
+            </small>
+
+        </div>
+
+        <p>PLAYERS ONLINE</p>
+
+        <div class="hero-progress">
+            <div id="playerBar"></div>
+        </div>
+
+        <div class="hero-player-bottom">
+
+            <span id="playerText">
+                ĐANG KIỂM TRA SERVER...
+            </span>
+
+            <span>LIVE</span>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section
+    class="dashboard-section"
+    id="server">
+
+    <div class="section-heading">
+
+        <div>
+
+            <p class="section-kicker">
+                SERVER DASHBOARD
+            </p>
+
+            <h2>
+                Everything you need,
+                <span>at a glance.</span>
+            </h2>
+
+        </div>
+
+        <p class="section-description">
+            Trạng thái server được cập nhật
+            tự động theo thời gian thực.
+        </p>
+
+    </div>
+
+    <div class="dashboard">
+
+        <div class="dashboard-main">
+
+            <div class="dashboard-status">
+
+                <div class="status-symbol">
+                    <span
+                        id="statusDot2"
+                        class="status-dot">
+                    </span>
+                </div>
+
+                <div>
+                    <small>STATUS</small>
+
+                    <strong id="dashboardStatus">
+                        ONLINE
+                    </strong>
+                </div>
+
+            </div>
+
+            <div class="dashboard-address">
+
+                <small>JAVA EDITION</small>
+
+                <strong>
+                    issmp.pikamc.vn
+                </strong>
+
+                <span>
+                    PORT 25367
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="stat-box">
+
+            <small>PLAYERS</small>
+
+            <strong>
+                <span id="dashboardPlayers">
+                    0
+                </span>
+
+                <em>
+                    /
+                    <span id="dashboardMax">
+                        36
+                    </span>
+                </em>
+            </strong>
+
+        </div>
+
+        <div class="stat-box">
+
+            <small>VERSION</small>
+
+            <strong
+                id="versionText"
+                class="version">
+                Paper 26.1.2
+            </strong>
+
+        </div>
+
+        <div class="stat-box">
+
+            <small>LATENCY</small>
+
+            <strong>
+                <span id="latencyText">
+                    --
+                </span>
+            </strong>
+
+        </div>
+
+    </div>
+
+    <div class="updated">
+        <span></span>
+
+        <span id="lastUpdate">
+            Cập nhật: --
+        </span>
+    </div>
+
+</section>
+
+<section
+    class="features-section"
+    id="features">
+
+    <div class="section-heading centered">
+
+        <p class="section-kicker">
+            WHY PLAY?
+        </p>
+
+        <h2>
+            BUILT FOR
+            <span>ADVENTURE.</span>
+        </h2>
+
+    </div>
+
+    <div class="features">
+
+        <article class="feature">
+
+            <span class="feature-number">
+                01
+            </span>
+
+            <div class="feature-icon">
+                ⚔
+            </div>
+
+            <h3>
+                ANARCHY SMP
+            </h3>
+
+            <p>
+                Tự do khám phá và sinh tồn
+                theo cách của riêng bạn.
+            </p>
+
+        </article>
+
+        <article class="feature">
+
+            <span class="feature-number">
+                02
+            </span>
+
+            <div class="feature-icon">
+                ◈
+            </div>
+
+            <h3>
+                ECONOMY
+            </h3>
+
+            <p>
+                Xây dựng nền kinh tế,
+                giao dịch và phát triển.
+            </p>
+
+        </article>
+
+        <article class="feature">
+
+            <span class="feature-number">
+                03
+            </span>
+
+            <div class="feature-icon">
+                ◇
+            </div>
+
+            <h3>
+                OPEN WORLD
+            </h3>
+
+            <p>
+                Thế giới rộng lớn với vô số
+                nơi để khám phá.
+            </p>
+
+        </article>
+
+        <article class="feature">
+
+            <span class="feature-number">
+                04
+            </span>
+
+            <div class="feature-icon">
+                ✦
+            </div>
+
+            <h3>
+                COMMUNITY
+            </h3>
+
+            <p>
+                Gặp gỡ những người chơi khác
+                và cùng tạo nên server.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+<section
+    class="community-section"
+    id="community">
+
+    <div class="community">
+
+        <div>
+
+            <p class="section-kicker">
+                READY TO PLAY?
+            </p>
+
+            <h2>
+                YOUR NEXT
+                <span>ADVENTURE</span>
+                STARTS HERE.
+            </h2>
+
+            <p>
+                Java Edition • Anarchy • Economy
+            </p>
+
+        </div>
+
+        <div class="community-actions">
+
+            <button
+                id="copyBtn2"
+                class="btn btn-primary">
+                COPY IP + PORT
+            </button>
+
+            <a
+                class="btn btn-ghost"
+                href="https://discord.com/"
+                target="_blank">
+                JOIN DISCORD
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<footer>
+
+    <div class="footer-brand">
+        InfiniteSuperSMP
+    </div>
+
+    <div>
+        issmp.pikamc.vn:25367
+    </div>
+
+    <div>
+        Minecraft Java Edition
+    </div>
+
+</footer>
+
+<div id="toast" class="toast">
+    Đã copy IP + PORT!
+</div>
+
+<script src="script.js?v=8"></script>
+
+</body>
+</html>
