@@ -1,9 +1,7 @@
 const http = require("http");
-const fs = require("fs");
-const path = require("path");
 const mc = require("minecraft-protocol");
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 const MINECRAFT_SERVER = {
     host: "issmp.pikamc.vn",
@@ -24,6 +22,7 @@ let checking = false;
 
 function checkMinecraft() {
     if (checking) return;
+
     checking = true;
 
     mc.ping({
@@ -33,12 +32,6 @@ function checkMinecraft() {
     })
         .then((result) => {
             const players = result.players || {};
-
-            const onlinePlayers =
-                Number(players.online) || 0;
-
-            const maxPlayers =
-                Number(players.max) || 0;
 
             let version = "--";
 
@@ -53,23 +46,21 @@ function checkMinecraft() {
                 }
             }
 
-            const latency =
-                typeof result.latency === "number"
-                    ? result.latency
-                    : null;
-
             status = {
                 online: true,
-                players: onlinePlayers,
-                maxPlayers: maxPlayers,
-                version: version,
-                latency: latency,
+                players: Number(players.online) || 0,
+                maxPlayers: Number(players.max) || 0,
+                version,
+                latency:
+                    typeof result.latency === "number"
+                        ? result.latency
+                        : null,
                 lastUpdate: new Date().toISOString(),
                 error: null
             };
 
             console.log(
-                `[ONLINE] ${onlinePlayers}/${maxPlayers} | ${version} | ${latency}ms`
+                `[ONLINE] ${status.players}/${status.maxPlayers} | ${status.version} | ${status.latency}ms`
             );
         })
         .catch((error) => {
@@ -90,127 +81,80 @@ function checkMinecraft() {
         });
 }
 
-checkMinecraft();
-setInterval(checkMinecraft, 10000);
+function sendJSON(res, data) {
+    res.writeHead(200, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store, no-cache, must-revalidate",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
+    });
 
-const mimeTypes = {
-    ".html": "text/html; charset=utf-8",
-    ".css": "text/css; charset=utf-8",
-    ".js": "application/javascript; charset=utf-8",
-    ".json": "application/json; charset=utf-8",
-    ".png": "image/png",
-    ".jpg": "image/jpeg",
-    ".jpeg": "image/jpeg",
-    ".svg": "image/svg+xml",
-    ".ico": "image/x-icon"
-};
+    res.end(JSON.stringify(data));
+}
 
 const server = http.createServer((req, res) => {
     const pathname = req.url.split("?")[0];
 
+    // CORS preflight
+    if (req.method === "OPTIONS") {
+        res.writeHead(204, {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type"
+        });
+
+        res.end();
+        return;
+    }
+
+    // Minecraft status API
     if (pathname === "/api/status") {
-        res.writeHead(200, {
-            "Content-Type": "application/json; charset=utf-8",
-            "Cache-Control":
-                "no-store, no-cache, must-revalidate"
+        sendJSON(res, status);
+        return;
+    }
+
+    // Simple health check
+    if (pathname === "/") {
+        sendJSON(res, {
+            ok: true,
+            service: "InfiniteSuperSMP Status API",
+            minecraft: `${MINECRAFT_SERVER.host}:${MINECRAFT_SERVER.port}`,
+            statusEndpoint: "/api/status"
         });
 
-        res.end(JSON.stringify(status));
         return;
     }
 
-    let requestPath = pathname;
-
-    if (requestPath === "/") {
-        requestPath = "/index.html";
-    }
-
-    try {
-        requestPath = decodeURIComponent(requestPath);
-    } catch {
-        res.writeHead(400);
-        res.end("Bad Request");
-        return;
-    }
-
-    const webRoot = path.resolve(__dirname);
-
-    const filePath = path.normalize(
-        path.join(webRoot, requestPath)
-    );
-
-    if (
-        filePath !== webRoot &&
-        !filePath.startsWith(webRoot + path.sep)
-    ) {
-        res.writeHead(403);
-        res.end("Forbidden");
-        return;
-    }
-
-    fs.readFile(filePath, (error, data) => {
-        if (error) {
-            if (error.code === "ENOENT") {
-                res.writeHead(404, {
-                    "Content-Type":
-                        "text/plain; charset=utf-8"
-                });
-
-                res.end("404 - Not Found");
-                return;
-            }
-
-            res.writeHead(500, {
-                "Content-Type":
-                    "text/plain; charset=utf-8"
-            });
-
-            res.end("500 - Internal Server Error");
-            return;
-        }
-
-        const extension =
-            path.extname(filePath).toLowerCase();
-
-        const contentType =
-            mimeTypes[extension] ||
-            "application/octet-stream";
-
-        res.writeHead(200, {
-            "Content-Type": contentType,
-            "Cache-Control": "no-cache"
-        });
-
-        res.end(data);
+    res.writeHead(404, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*"
     });
+
+    res.end(
+        JSON.stringify({
+            error: "Not Found"
+        })
+    );
 });
 
 server.on("error", (error) => {
-    if (error.code === "EADDRINUSE") {
-        console.log(
-            "❌ Port 8080 đang được sử dụng."
-        );
-
-        process.exit(1);
-    }
-
-    console.error(error);
+    console.error("Server error:", error);
 });
 
-server.listen(PORT, "0.0.0.0", () => {
-    console.log("");
-    console.log("=================================");
-    console.log(" InfiniteSuperSMP Web V8");
-    console.log("=================================");
-    console.log(
-        `Website: http://localhost:${PORT}`
-    );
+checkMinecraft();
 
+// Check Minecraft every 10 seconds
+setInterval(checkMinecraft, 10000);
+
+server.listen(PORT, "0.0.0.0", () => {
+    console.log("=================================");
+    console.log(" InfiniteSuperSMP Status API");
+    console.log("=================================");
+    console.log(`HTTP Port: ${PORT}`);
     console.log(
         `Minecraft: ${MINECRAFT_SERVER.host}:${MINECRAFT_SERVER.port}`
     );
-
-    console.log("Realtime check: 10 giây");
+    console.log("Check interval: 10 seconds");
     console.log("=================================");
-    console.log("");
 });

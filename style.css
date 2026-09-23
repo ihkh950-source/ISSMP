@@ -9,8 +9,8 @@ html {
 }
 
 body {
-    background: #050706;
-    color: #eef8f2;
+    background: #05080d;
+    color: #eef6ff;
     font-family: "Inter", sans-serif;
     overflow-x: hidden;
 }
@@ -24,28 +24,36 @@ button {
     font: inherit;
 }
 
+/* =========================
+   BLUE BACKGROUND GLOW
+========================= */
+
 .bg-glow {
     position: fixed;
     width: 500px;
     height: 500px;
     border-radius: 50%;
     filter: blur(120px);
-    opacity: .12;
+    opacity: .14;
     pointer-events: none;
     z-index: -1;
 }
 
 .glow-one {
-    background: #00ff88;
+    background: #008cff;
     top: -200px;
     left: -200px;
 }
 
 .glow-two {
-    background: #00cc66;
+    background: #0066ff;
     right: -200px;
     top: 500px;
 }
+
+/* =========================
+   NAVBAR
+========================= */
 
 .navbar {
     width: min(1200px, 92%);
@@ -54,7 +62,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #132019;
+    border-bottom: 1px solid #142538;
 }
 
 .brand {
@@ -66,7 +74,7 @@ button {
 }
 
 .brand > span:last-child > span {
-    color: #35e98a;
+    color: #35a8ff;
 }
 
 .brand-mark {
@@ -74,15 +82,16 @@ button {
     height: 34px;
     display: grid;
     place-items: center;
-    border: 1px solid #35e98a;
-    color: #35e98a;
+    border: 1px solid #35a8ff;
+    color: #35a8ff;
     border-radius: 8px;
+    box-shadow: 0 0 15px rgba(53, 168, 255, .15);
 }
 
 .nav-links {
     display: flex;
     gap: 32px;
-    color: #8d9b94;
+    color: #8d9aaa;
     font-size: 14px;
 }
 
@@ -92,10 +101,19 @@ button {
 
 .nav-discord {
     padding: 10px 18px;
-    border: 1px solid #26372e;
+    border: 1px solid #26394f;
     border-radius: 8px;
     font-size: 13px;
 }
+
+.nav-discord:hover {
+    border-color: #358fff;
+    color: #5cb5ff;
+}
+
+/* =========================
+   HERO
+========================= */
 
 .hero {
     width: min(1200px, 92%);
@@ -111,11 +129,11 @@ button {
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    border: 1px solid #214532;
-    background: #0b1510;
+    border: 1px solid #21435f;
+    background: #09131f;
     padding: 8px 13px;
     border-radius: 999px;
-    color: #68f5a7;
+    color: #68bfff;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: .08em;
@@ -125,8 +143,8 @@ button {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #42ed91;
-    box-shadow: 0 0 12px #42ed91;
+    background: #42aaff;
+    box-shadow: 0 0 12px #42aaff;
 }
 
 .status-dot.offline {
@@ -137,7 +155,7 @@ button {
 .eyebrow,
 .section-kicker {
     margin-top: 28px;
-    color: #45d887;
+    color: #45a9ff;
     font-size: 12px;
     font-weight: 800;
     letter-spacing: .16em;
@@ -154,16 +172,20 @@ button {
 .hero h1 span,
 .section-heading h2 span,
 .community h2 span {
-    color: #35e98a;
+    color: #35a8ff;
 }
 
 .hero-text {
     max-width: 600px;
     margin-top: 30px;
-    color: #8d9b94;
+    color: #8d9aaa;
     line-height: 1.8;
     font-size: 16px;
 }
+
+/* =========================
+   SERVER ADDRESS
+========================= */
 
 .address-box {
     max-width: 580px;
@@ -173,8 +195,8 @@ button {
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    border: 1px solid #1d3025;
-    background: #09100c;
+    border: 1px solid #1d3045;
+    background: #080f18;
     border-radius: 12px;
 }
 
@@ -183,7 +205,7 @@ button {
 .stat-box small,
 .dashboard-status small {
     display: block;
-    color: #708078;
+    color: #708094;
     font-size: 10px;
     letter-spacing: .13em;
 }
@@ -196,13 +218,22 @@ button {
 }
 
 .address-box button {
-    border: 1px solid #2b503b;
-    background: #0d1b14;
-    color: #6ef0a6;
+    border: 1px solid #2b4f70;
+    background: #0c1927;
+    color: #6ec0ff;
     padding: 10px 14px;
     border-radius: 7px;
     cursor: pointer;
 }
+
+.address-box button:hover {
+    background: #102238;
+    border-color: #358fff;
+}
+
+/* =========================
+   BUTTONS
+========================= */
 
 .hero-actions {
     display: flex;
@@ -223,26 +254,36 @@ button {
 }
 
 .btn-primary {
-    background: #35e98a;
-    color: #04100a;
+    background: #35a8ff;
+    color: #03101c;
+    box-shadow: 0 0 25px rgba(53, 168, 255, .12);
 }
 
 .btn-primary:hover {
-    background: #61f5a4;
+    background: #61bdff;
 }
 
 .btn-ghost {
-    border: 1px solid #26372e;
-    background: #0b100d;
+    border: 1px solid #26394f;
+    background: #0a1018;
 }
+
+.btn-ghost:hover {
+    border-color: #358fff;
+    color: #61bdff;
+}
+
+/* =========================
+   HERO PLAYER
+========================= */
 
 .hero-player {
     padding: 32px;
-    border: 1px solid #1c3025;
+    border: 1px solid #1c3045;
     border-radius: 18px;
     background:
-        linear-gradient(145deg, #0b120e, #060907);
-    box-shadow: 0 25px 80px rgba(0, 255, 120, .06);
+        linear-gradient(145deg, #0a121c, #06090e);
+    box-shadow: 0 25px 80px rgba(0, 130, 255, .08);
 }
 
 .hero-player-top,
@@ -253,13 +294,13 @@ button {
 }
 
 .hero-player-top {
-    color: #6e7c75;
+    color: #6e7c8c;
     font-size: 11px;
     letter-spacing: .1em;
 }
 
 .hero-online {
-    color: #4de995;
+    color: #4daeff;
 }
 
 .hero-player-number {
@@ -270,19 +311,19 @@ button {
 }
 
 .hero-player-number small {
-    color: #68766f;
+    color: #68788a;
     font-size: 30px;
 }
 
 .hero-player > p {
-    color: #68766f;
+    color: #68788a;
     font-size: 11px;
     letter-spacing: .13em;
 }
 
 .hero-progress {
     height: 5px;
-    background: #17231c;
+    background: #172535;
     border-radius: 20px;
     overflow: hidden;
     margin: 30px 0;
@@ -291,14 +332,19 @@ button {
 .hero-progress div {
     width: 0%;
     height: 100%;
-    background: #35e98a;
+    background: #35a8ff;
     transition: width .4s;
+    box-shadow: 0 0 12px rgba(53, 168, 255, .5);
 }
 
 .hero-player-bottom {
-    color: #8a978f;
+    color: #8a98a8;
     font-size: 12px;
 }
+
+/* =========================
+   DASHBOARD
+========================= */
 
 .dashboard-section,
 .features-section,
@@ -326,7 +372,7 @@ button {
 
 .section-description {
     max-width: 330px;
-    color: #77857d;
+    color: #778697;
     line-height: 1.7;
 }
 
@@ -334,14 +380,14 @@ button {
     display: grid;
     grid-template-columns: 2fr 1fr 1.2fr 1fr;
     gap: 1px;
-    background: #1b2a22;
-    border: 1px solid #1b2a22;
+    background: #1b2a3a;
+    border: 1px solid #1b2a3a;
     border-radius: 14px;
     overflow: hidden;
 }
 
 .dashboard > * {
-    background: #080d0a;
+    background: #080d13;
     padding: 25px;
 }
 
@@ -362,14 +408,14 @@ button {
     height: 32px;
     display: grid;
     place-items: center;
-    background: #0e1c14;
+    background: #0d1b29;
     border-radius: 8px;
 }
 
 .dashboard-status strong {
     display: block;
     margin-top: 5px;
-    color: #4ce794;
+    color: #4caeff;
 }
 
 .dashboard-address {
@@ -385,7 +431,7 @@ button {
 .dashboard-address span {
     display: block;
     margin-top: 5px;
-    color: #65736c;
+    color: #657588;
     font-size: 11px;
 }
 
@@ -397,7 +443,7 @@ button {
 }
 
 .stat-box em {
-    color: #637168;
+    color: #637285;
     font-size: 16px;
     font-style: normal;
 }
@@ -411,16 +457,21 @@ button {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #65736c;
+    color: #657588;
     font-size: 11px;
 }
 
 .updated > span:first-child {
     width: 6px;
     height: 6px;
-    background: #35e98a;
+    background: #35a8ff;
     border-radius: 50%;
+    box-shadow: 0 0 8px #35a8ff;
 }
+
+/* =========================
+   FEATURES
+========================= */
 
 .centered {
     display: block;
@@ -437,8 +488,8 @@ button {
     position: relative;
     padding: 30px;
     min-height: 250px;
-    border: 1px solid #17251d;
-    background: #080d0a;
+    border: 1px solid #172638;
+    background: #080d13;
     border-radius: 13px;
 }
 
@@ -446,12 +497,12 @@ button {
     position: absolute;
     top: 20px;
     right: 20px;
-    color: #344139;
+    color: #344353;
     font-family: monospace;
 }
 
 .feature-icon {
-    color: #35e98a;
+    color: #35a8ff;
     font-size: 30px;
 }
 
@@ -462,22 +513,32 @@ button {
 
 .feature p {
     margin-top: 12px;
-    color: #748078;
+    color: #748293;
     line-height: 1.7;
     font-size: 14px;
 }
 
+.feature:hover {
+    border-color: #28557a;
+    transform: translateY(-3px);
+    transition: .2s;
+}
+
+/* =========================
+   COMMUNITY
+========================= */
+
 .community {
     padding: 55px;
-    border: 1px solid #20372a;
+    border: 1px solid #203b55;
     border-radius: 18px;
     background:
         radial-gradient(
             circle at right,
-            rgba(0, 255, 130, .1),
+            rgba(0, 140, 255, .12),
             transparent 45%
         ),
-        #080e0a;
+        #080f17;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -486,7 +547,7 @@ button {
 
 .community p:last-child {
     margin-top: 18px;
-    color: #718078;
+    color: #718093;
 }
 
 .community-actions {
@@ -495,42 +556,55 @@ button {
     gap: 10px;
 }
 
+/* =========================
+   FOOTER
+========================= */
+
 footer {
     width: min(1200px, 92%);
     margin: auto;
     padding: 25px 0 35px;
-    border-top: 1px solid #17231c;
+    border-top: 1px solid #172538;
     display: flex;
     justify-content: space-between;
     gap: 20px;
-    color: #65736c;
+    color: #657588;
     font-size: 12px;
 }
 
 .footer-brand {
-    color: #dce9e1;
+    color: #dce9f5;
     font-weight: 700;
 }
+
+/* =========================
+   TOAST
+========================= */
 
 .toast {
     position: fixed;
     right: 25px;
     bottom: 25px;
     padding: 13px 18px;
-    background: #35e98a;
-    color: #031008;
+    background: #35a8ff;
+    color: #03101c;
     border-radius: 8px;
     font-size: 13px;
     font-weight: 800;
     transform: translateY(100px);
     opacity: 0;
     transition: .3s;
+    box-shadow: 0 8px 30px rgba(0, 140, 255, .2);
 }
 
 .toast.show {
     transform: translateY(0);
     opacity: 1;
 }
+
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media (max-width: 900px) {
 

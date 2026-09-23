@@ -1,17 +1,12 @@
 {
-  "name": "web",
+  "name": "infinite-supersmp-status",
   "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
+  "private": true,
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "minecraft-protocol": "^1.68.0"
+    "minecraft-protocol": "^1.54.0"
   }
 }
