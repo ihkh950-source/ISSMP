@@ -147,9 +147,25 @@ button {
     box-shadow: 0 0 12px #42aaff;
 }
 
+.status-dot.online {
+    background: #42aaff;
+    box-shadow: 0 0 12px #42aaff;
+}
+
 .status-dot.offline {
     background: #ff5252;
     box-shadow: 0 0 12px #ff5252;
+}
+
+.status-dot.loading {
+    background: #ffb340;
+    box-shadow: 0 0 12px #ffb340;
+    animation: dotPulse 1s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .3; }
 }
 
 .eyebrow,

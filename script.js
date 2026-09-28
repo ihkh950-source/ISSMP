@@ -1,18 +1,14 @@
 const API_URL = "https://issmp.onrender.com";
 
-const SERVER_ADDRESS = "issmp.pikamc.vn:25367";
+const SERVER_ADDRESS = "issmp.asia:25367";
 const REFRESH_INTERVAL = 5000;
 
 // ===============================
 // Helpers
 // ===============================
 
-function $(selector) {
-    return document.querySelector(selector);
-}
-
-function setText(selector, value) {
-    const element = $(selector);
+function setText(id, value) {
+    const element = document.getElementById(id);
 
     if (element) {
         element.textContent = value;
@@ -46,58 +42,16 @@ function formatTime(dateString) {
 }
 
 // ===============================
-// Copy server address
+// Status dots
 // ===============================
 
-function copyServerAddress() {
-    navigator.clipboard
-        .writeText(SERVER_ADDRESS)
-        .then(() => {
-            showCopySuccess();
-        })
-        .catch(() => {
-            fallbackCopy();
+function setStatusDots(state) {
+    document
+        .querySelectorAll(".status-dot")
+        .forEach((element) => {
+            element.classList.remove("online", "offline", "loading");
+            element.classList.add(state);
         });
-}
-
-function fallbackCopy() {
-    const textarea = document.createElement("textarea");
-
-    textarea.value = SERVER_ADDRESS;
-    textarea.style.position = "fixed";
-    textarea.style.opacity = "0";
-
-    document.body.appendChild(textarea);
-
-    textarea.focus();
-    textarea.select();
-
-    try {
-        document.execCommand("copy");
-        showCopySuccess();
-    } catch (error) {
-        console.error("Copy failed:", error);
-    }
-
-    textarea.remove();
-}
-
-function showCopySuccess() {
-    const buttons = document.querySelectorAll(
-        "[data-copy-server], .copy-btn"
-    );
-
-    buttons.forEach((button) => {
-        const originalText =
-            button.dataset.originalText || button.textContent;
-
-        button.dataset.originalText = originalText;
-        button.textContent = "COPIED!";
-
-        setTimeout(() => {
-            button.textContent = originalText;
-        }, 1500);
-    });
 }
 
 // ===============================
@@ -108,50 +62,28 @@ function setStatusOnline(data) {
     const players = Number(data.players) || 0;
     const maxPlayers = Number(data.maxPlayers) || 0;
 
-    // Hero status
-    setText("[data-status]", "ONLINE");
+    // Hero
+    setText("statusText", "ONLINE");
+    setText("smallStatus", "ONLINE");
+    setText("playerCount", players);
+    setText("playerMax", ` / ${maxPlayers}`);
+    setText("playerText", "Server đang hoạt động");
 
-    // Player count
-    setText("[data-players]", `${players}/${maxPlayers}`);
-    setText("[data-player-count]", players);
-    setText("[data-player-max]", maxPlayers);
+    // Dashboard
+    setText("dashboardStatus", "ONLINE");
+    setText("dashboardPlayers", players);
+    setText("dashboardMax", maxPlayers);
+    setText("versionText", data.version || "--");
+    setText("latencyText", formatLatency(data.latency));
+    setText("lastUpdate", `Cập nhật: ${formatTime(data.lastUpdate)}`);
 
-    // Version
-    setText("[data-version]", data.version || "--");
-
-    // Latency
-    setText("[data-latency]", formatLatency(data.latency));
-
-    // Last update
-    setText("[data-last-update]", formatTime(data.lastUpdate));
-
-    // Status indicators
-    document
-        .querySelectorAll(
-            ".status-dot, .live-dot, [data-status-dot]"
-        )
-        .forEach((element) => {
-            element.classList.remove("offline");
-            element.classList.remove("loading");
-            element.classList.add("online");
-        });
-
-    document
-        .querySelectorAll(
-            ".status-pill, .server-status, [data-status-container]"
-        )
-        .forEach((element) => {
-            element.classList.remove("offline");
-            element.classList.remove("loading");
-            element.classList.add("online");
-        });
+    // Status dots
+    setStatusDots("online");
 
     // Progress bar
-    const progressBars = document.querySelectorAll(
-        "[data-player-progress], .player-progress-fill"
-    );
+    const bar = document.getElementById("playerBar");
 
-    progressBars.forEach((bar) => {
+    if (bar) {
         let percentage = 0;
 
         if (maxPlayers > 0) {
@@ -161,78 +93,42 @@ function setStatusOnline(data) {
         percentage = Math.max(0, Math.min(100, percentage));
 
         bar.style.width = `${percentage}%`;
-    });
-
-    // Optional status text
-    setText("[data-status-message]", "Server is online");
+    }
 }
 
 function setStatusOffline(data) {
-    setText("[data-status]", "OFFLINE");
+    // Hero
+    setText("statusText", "OFFLINE");
+    setText("smallStatus", "OFFLINE");
+    setText("playerCount", "0");
+    setText("playerMax", " / 0");
+    setText("playerText", "Server đang tắt");
 
-    setText("[data-players]", "0/0");
-    setText("[data-player-count]", "0");
-    setText("[data-player-max]", "0");
+    // Dashboard
+    setText("dashboardStatus", "OFFLINE");
+    setText("dashboardPlayers", "0");
+    setText("dashboardMax", "0");
+    setText("versionText", "--");
+    setText("latencyText", "--");
+    setText("lastUpdate", `Cập nhật: ${formatTime(data.lastUpdate)}`);
 
-    setText("[data-version]", "--");
-    setText("[data-latency]", "--");
-    setText("[data-last-update]", formatTime(data.lastUpdate));
+    // Status dots
+    setStatusDots("offline");
 
-    document
-        .querySelectorAll(
-            ".status-dot, .live-dot, [data-status-dot]"
-        )
-        .forEach((element) => {
-            element.classList.remove("online");
-            element.classList.remove("loading");
-            element.classList.add("offline");
-        });
+    // Progress bar
+    const bar = document.getElementById("playerBar");
 
-    document
-        .querySelectorAll(
-            ".status-pill, .server-status, [data-status-container]"
-        )
-        .forEach((element) => {
-            element.classList.remove("online");
-            element.classList.remove("loading");
-            element.classList.add("offline");
-        });
-
-    document
-        .querySelectorAll(
-            "[data-player-progress], .player-progress-fill"
-        )
-        .forEach((bar) => {
-            bar.style.width = "0%";
-        });
-
-    setText("[data-status-message]", "Server is offline");
+    if (bar) {
+        bar.style.width = "0%";
+    }
 }
 
 function setStatusLoading() {
-    setText("[data-status]", "CONNECTING...");
+    setText("statusText", "CONNECTING...");
+    setText("smallStatus", "CONNECTING...");
+    setText("playerText", "ĐANG KIỂM TRA SERVER...");
 
-    document
-        .querySelectorAll(
-            ".status-dot, .live-dot, [data-status-dot]"
-        )
-        .forEach((element) => {
-            element.classList.remove("online");
-            element.classList.remove("offline");
-            element.classList.add("loading");
-        });
-
-    document
-        .querySelectorAll(
-            ".status-pill, .server-status, [data-status-container]"
-        )
-        .forEach((element) => {
-            element.classList.remove("online");
-            element.classList.remove("offline");
-            element.classList.add("loading");
-        });
-
-    setText("[data-status-message]", "Connecting to status server...");
+    setStatusDots("loading");
 }
 
 // ===============================
@@ -273,69 +169,77 @@ async function fetchServerStatus() {
         }
 
         firstLoad = false;
-
-        console.log("Minecraft status:", data);
     } catch (error) {
-        console.error(
-            "Status API error:",
-            error
-        );
+        console.error("Status API error:", error);
 
-        // Don't immediately say Minecraft is offline.
-        // The backend itself may simply be waking up.
-        setText("[data-status]", "CONNECTING...");
+        // Backend may be waking up — keep loading state
+        setText("statusText", "CONNECTING...");
+        setText("smallStatus", "CONNECTING...");
+        setText("playerText", "Đang kết nối tới server...");
 
-        setText(
-            "[data-status-message]",
-            "Status server is waking up..."
-        );
-
-        document
-            .querySelectorAll(
-                ".status-dot, .live-dot, [data-status-dot]"
-            )
-            .forEach((element) => {
-                element.classList.remove("online");
-                element.classList.remove("offline");
-                element.classList.add("loading");
-            });
-
-        document
-            .querySelectorAll(
-                ".status-pill, .server-status, [data-status-container]"
-            )
-            .forEach((element) => {
-                element.classList.remove("online");
-                element.classList.remove("offline");
-                element.classList.add("loading");
-            });
+        setStatusDots("loading");
     }
 }
 
 // ===============================
-// Copy buttons
+// Copy server address
 // ===============================
 
-function setupCopyButtons() {
-    const buttons = document.querySelectorAll(
-        "[data-copy-server], .copy-btn"
-    );
-
-    buttons.forEach((button) => {
-        button.addEventListener("click", copyServerAddress);
-    });
+function copyServerAddress(button) {
+    navigator.clipboard
+        .writeText(SERVER_ADDRESS)
+        .then(() => {
+            showCopySuccess(button);
+        })
+        .catch(() => {
+            fallbackCopy(button);
+        });
 }
 
-// ===============================
-// Server address
-// ===============================
+function fallbackCopy(button) {
+    const textarea = document.createElement("textarea");
 
-function setupServerAddress() {
-    document
-        .querySelectorAll("[data-server-address]")
-        .forEach((element) => {
-            element.textContent = SERVER_ADDRESS;
-        });
+    textarea.value = SERVER_ADDRESS;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+
+    document.body.appendChild(textarea);
+
+    textarea.focus();
+    textarea.select();
+
+    try {
+        document.execCommand("copy");
+        showCopySuccess(button);
+    } catch (error) {
+        console.error("Copy failed:", error);
+    }
+
+    textarea.remove();
+}
+
+function showCopySuccess(button) {
+    if (!button) return;
+
+    const originalText = button.dataset.originalText || button.textContent;
+
+    button.dataset.originalText = originalText;
+    button.textContent = "COPIED!";
+
+    // Toast
+    const toast = document.getElementById("toast");
+
+    if (toast) {
+        toast.classList.add("show");
+
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 1500);
+    }
+
+    setTimeout(() => {
+        button.textContent = originalText;
+    }, 1500);
 }
 
 // ===============================
@@ -343,13 +247,18 @@ function setupServerAddress() {
 // ===============================
 
 document.addEventListener("DOMContentLoaded", () => {
-    setupCopyButtons();
-    setupServerAddress();
+    // Copy buttons
+    ["copyBtn", "copyBtn2", "copyBtn3"].forEach((id) => {
+        const button = document.getElementById(id);
+
+        if (button) {
+            button.addEventListener("click", () => {
+                copyServerAddress(button);
+            });
+        }
+    });
 
     fetchServerStatus();
 
-    setInterval(
-        fetchServerStatus,
-        REFRESH_INTERVAL
-    );
+    setInterval(fetchServerStatus, REFRESH_INTERVAL);
 });
