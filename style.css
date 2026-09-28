@@ -486,6 +486,71 @@ button {
 }
 
 /* =========================
+   SPECS
+========================= */
+
+.specs-section {
+    width: min(1200px, 92%);
+    margin: 0 auto;
+    padding: 100px 0;
+}
+
+.specs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.spec-card {
+    padding: 40px 30px;
+    border: 1px solid #172638;
+    background: #080d13;
+    border-radius: 13px;
+    text-align: center;
+    transition: .2s;
+}
+
+.spec-card:hover {
+    border-color: #28557a;
+    transform: translateY(-3px);
+}
+
+.spec-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 24px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #21435f;
+    background: #0c1927;
+    border-radius: 14px;
+    color: #35a8ff;
+    font-size: 26px;
+}
+
+.spec-card small {
+    display: block;
+    color: #708094;
+    font-size: 10px;
+    letter-spacing: .13em;
+}
+
+.spec-card strong {
+    display: block;
+    margin-top: 14px;
+    font-family: "Space Grotesk";
+    font-size: 24px;
+}
+
+.spec-detail {
+    display: block;
+    margin-top: 8px;
+    color: #35a8ff;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* =========================
    FEATURES
 ========================= */
 
@@ -649,6 +714,10 @@ footer {
         grid-template-columns: 1fr 1fr;
     }
 
+    .specs {
+        grid-template-columns: 1fr 1fr;
+    }
+
     .community {
         flex-direction: column;
         align-items: flex-start;
@@ -684,6 +753,10 @@ footer {
     }
 
     .features {
+        grid-template-columns: 1fr;
+    }
+
+    .specs {
         grid-template-columns: 1fr;
     }
 
