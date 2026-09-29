@@ -4,7 +4,8 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "echo \"No build step needed\""
   },
   "dependencies": {
     "minecraft-protocol": "^1.54.0"
